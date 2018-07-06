@@ -113,14 +113,14 @@ public class AuthAppSuiteService {
     public String getAccessToken(String suiteAccessToken, String pernanentCode) {
         String url = authBasePath + "/get_corp_token?suite_token=" + suiteAccessToken;
         JSONObject jsObj = new JSONObject();
-        jsObj.put("suite_id", suiteConfig.suiteKey);
-        jsObj.put("permanent_code", pernanentCode);
+        jsObj.put("suiteKey", suiteConfig.suiteKey);
+        jsObj.put("permanentCode", pernanentCode);
         String backData = HttpReq.postBody(url, jsObj.toJSONString());
         JSONObject backDataObj = JSONObject.parseObject(backData);
         String data = backDataObj.getString("data");
         String accessToken = "";
         if (data == null) {
-            LOG.error("获得空间访问令牌失败,请求参数suite_id=" + suiteConfig.suiteKey + ",permanent_code=" + pernanentCode + ";返回结果=" + backDataObj);
+            LOG.error("获得空间访问令牌失败,请求参数suiteKey=" + suiteConfig.suiteKey + ",permanentCode=" + pernanentCode + ";返回结果=" + backDataObj);
             return null;
         } else {
             accessToken = JSONObject.parseObject(data).getString("access_token");

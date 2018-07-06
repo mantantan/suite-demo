@@ -12,9 +12,10 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
-    <select id="get"  resultMap="permanentCodeResultMap" resultType ="PermanentCodeBo">
+    <select id="get" resultMap="permanentCodeResultMap" resultType ="PermanentCodeBo">
         SELECT *
         FROM tb_permanent_code
+        where qz_id=#{qzId}
     </select>
 
     <insert id="insert" parameterType="PermanentCodeBo" useGeneratedKeys="true" keyProperty="id">
