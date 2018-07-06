@@ -31,6 +31,7 @@ public class AuthAppSuiteService {
     // 保存获取的永久code
     public void savePermanentCode(PermanentCodeBo permanentCodeBo) {
         // 本系统仅为演示，持久化层实现
+
         permanentCodeService.savePermanentCode(permanentCodeBo);
 
     }
@@ -85,7 +86,7 @@ public class AuthAppSuiteService {
      * @param tempCode
      * @return
      */
-    public String getPermanentCode(String suite_access_token, String tempCode) {
+    public PermanentCodeBo getPermanentCode(String suite_access_token, String tempCode) {
         String url = authBasePath + "/auth/get_permanent_code?suite_token=" + suite_access_token;
         JSONObject jsObj = new JSONObject();
         jsObj.put("suiteKey", suiteConfig.suiteKey);
@@ -93,17 +94,20 @@ public class AuthAppSuiteService {
         String backData = HttpReq.postBody(url, jsObj.toJSONString());
         JSONObject backDataObj = JSONObject.parseObject(backData);
         String data = backDataObj.getString("data");
-        String permenentCode = "";
+        PermanentCodeBo permanentCodeBo=null;
         if (data == null) {
             LOG.error("获得永久授权码失败,请求参数suite_id=" + suiteConfig.suiteKey + ",auth_code=" + tempCode + ",token=" + suite_access_token + ";返回结果=" + backDataObj);
             throw new BizException(CodeEnum.C_90004);
         } else {
-            permenentCode = JSONObject.parseObject(data).getString("permanentCode");
-            String qzId = JSONObject.parseObject(data).getString("qzId");
+            String permenentCode = JSONObject.parseObject(data).getString("permanentCode");
+            Integer qzId = JSONObject.parseObject(data).getInteger("qzId");
             String qzName = JSONObject.parseObject(data).getString("qzName");
+            String corpId=JSONObject.parseObject(data).getString("corpId");
+            String corpName=JSONObject.parseObject(data).getString("corpName");
             LOG.info("空间名称=" + qzName + ",空间Id=" + qzId + "的永久授权码=" + permenentCode);
+            permanentCodeBo=new PermanentCodeBo(qzId,suiteConfig.suiteKey,permenentCode,corpId,corpName);
         }
-        return permenentCode;
+        return permanentCodeBo;
     }
 
     public String getAccessToken(String suiteAccessToken, String pernanentCode) {

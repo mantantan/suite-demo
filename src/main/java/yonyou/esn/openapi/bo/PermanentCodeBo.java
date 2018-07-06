@@ -1,5 +1,7 @@
 package yonyou.esn.openapi.bo;
 
+import org.omg.PortableInterceptor.INACTIVE;
+
 import java.util.Date;
 
 /**
@@ -7,15 +9,21 @@ import java.util.Date;
  */
 public class PermanentCodeBo {
     private int id;
-    private String qzId;
+    private Integer qzId;
+    private String qzName;
+    private String corpId;
+    private String corpName;
+    private Integer authMemberId;
     private String suiteKey;
     private String permanentCode;
     private Date createTime;
 
-    public PermanentCodeBo(String qzId, String suiteKey, String permanentCode){
+    public PermanentCodeBo(Integer qzId, String suiteKey, String permanentCode,String corpId,String corpName){
         this.qzId = qzId;
         this.suiteKey = suiteKey;
         this.permanentCode = permanentCode;
+        this.corpId=corpId;
+        this.corpName=corpName;
     }
 
     public PermanentCodeBo(){
@@ -30,11 +38,11 @@ public class PermanentCodeBo {
         this.id = id;
     }
 
-    public String getQzId() {
+    public Integer getQzId() {
         return qzId;
     }
 
-    public void setQzId(String qzId) {
+    public void setQzId(Integer qzId) {
         this.qzId = qzId;
     }
 
@@ -60,5 +68,37 @@ public class PermanentCodeBo {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getQzName() {
+        return qzName;
+    }
+
+    public void setQzName(String qzName) {
+        this.qzName = qzName;
+    }
+
+    public String getCorpId() {
+        return corpId;
+    }
+
+    public void setCorpId(String corpId) {
+        this.corpId = corpId;
+    }
+
+    public String getCorpName() {
+        return corpName;
+    }
+
+    public void setCorpName(String corpName) {
+        this.corpName = corpName;
+    }
+
+    public Integer getAuthMemberId() {
+        return authMemberId;
+    }
+
+    public void setAuthMemberId(Integer authMemberId) {
+        this.authMemberId = authMemberId;
     }
 }

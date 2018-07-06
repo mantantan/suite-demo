@@ -64,8 +64,7 @@ public class SuiteController {
             //suiteKey+suiteSecret+suiteTicket --> suiteToken
             String suiteAccessToken = authAppSuiteService.getSuiteAccessToken(authAppSuiteService.getSuiteTicket());
             //suiteToken+suiteKey+tempCode --> permanentCode
-            String permanentCode = authAppSuiteService.getPermanentCode(suiteAccessToken, tempCode);
-            PermanentCodeBo permanentCodeBo = new PermanentCodeBo(qzId, suiteConfig.suiteKey, permanentCode);
+            PermanentCodeBo permanentCodeBo = authAppSuiteService.getPermanentCode(suiteAccessToken, tempCode);
             authAppSuiteService.savePermanentCode(permanentCodeBo);
         }
         return "success";

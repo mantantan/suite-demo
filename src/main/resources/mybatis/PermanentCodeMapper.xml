@@ -5,6 +5,9 @@
         <id column="id" property="id"/>
         <result property="suiteKey" column="suite_key"/>
         <result property="qzId" column="qz_id"/>
+        <result property="qzName" column="qz_name"/>
+        <result property="corpId" column="corp_id"/>
+        <result property="corpName" column="corp_name"/>
         <result property="permanentCode" column="permanent_code"/>
         <result property="createTime" column="create_time"/>
     </resultMap>
@@ -15,8 +18,13 @@
     </select>
 
     <insert id="insert" parameterType="PermanentCodeBo" useGeneratedKeys="true" keyProperty="id">
-       INSERT INTO tb_permanent_code (suite_key, qz_id, permanent_code, create_time)
-        VALUES (#{suiteKey}, #{qzId}, #{permanentCode}, now())
+       INSERT INTO tb_permanent_code (suite_key, qz_id, permanent_code, create_time,corp_id,corp_name)
+        VALUES (#{suiteKey}, #{qzId}, #{permanentCode}, now(),#{corpId},#{corpName})
     </insert>
+
+    <delete id="delete">
+        DELETE FROM tb_permanent_code
+        WHERE suite_key=#{suiteKey} AND qz_id=#{qzId}
+    </delete>
 
 </mapper>
