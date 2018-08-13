@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>yonyou.esn.openapi</groupId>
-	<artifactId>demo</artifactId>
+	<artifactId>suite-demo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
-	<name>demo</name>
+	<name>suite-demo</name>
 	<description>开放平台接入demo</description>
 
 	<parent>
@@ -108,7 +108,9 @@
 	</dependencies>
 
 	<build>
+		<finalName>suiteDemo</finalName>
 		<plugins>
+			<!--打包使用maven boot支持插件-->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>

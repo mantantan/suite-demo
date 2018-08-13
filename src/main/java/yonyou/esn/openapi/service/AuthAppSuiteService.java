@@ -61,7 +61,7 @@ public class AuthAppSuiteService {
     }
 
     public String getSuiteAccessToken(String suiteTicket) {
-        String url = authBasePath + "/get_suite_token";
+        String url = authBasePath + "/suite/get_suite_token";
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("suiteKey", suiteConfig.suiteKey);
         jsonObject.put("suiteSecret", suiteConfig.suiteSecret);
@@ -87,7 +87,7 @@ public class AuthAppSuiteService {
      * @return
      */
     public PermanentCodeBo getPermanentCode(String suite_access_token, String tempCode) {
-        String url = authBasePath + "/auth/get_permanent_code?suite_token=" + suite_access_token;
+        String url = authBasePath + "/suite/auth/get_permanent_code?suite_token=" + suite_access_token;
         JSONObject jsObj = new JSONObject();
         jsObj.put("suiteKey", suiteConfig.suiteKey);
         jsObj.put("tmpAuthCode", tempCode);
@@ -111,7 +111,7 @@ public class AuthAppSuiteService {
     }
 
     public String getAccessToken(String suiteAccessToken, String pernanentCode) {
-        String url = authBasePath + "/get_corp_token?suite_token=" + suiteAccessToken;
+        String url = authBasePath + "/suite/get_corp_token?suite_token=" + suiteAccessToken;
         JSONObject jsObj = new JSONObject();
         jsObj.put("suiteKey", suiteConfig.suiteKey);
         jsObj.put("permanentCode", pernanentCode);

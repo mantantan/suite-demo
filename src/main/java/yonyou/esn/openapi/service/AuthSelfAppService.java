@@ -32,7 +32,7 @@ public class AuthSelfAppService {
      * @return
      */
     public String getAccessToken() {
-        String url = authBasePath + "/token";
+        String url = authBasePath + "/suite/self_token";
         Map<String, String> map = new HashMap<String, String>();
         map.put("appid",selfAppConfig.appId);
         map.put("secret",selfAppConfig.secret);

@@ -58,7 +58,7 @@ public class SuiteController {
             authAppSuiteService.saveSuiteTicket(suiteTicket);
         }else{ // 推送的是临时码
             String tempCode = dataMap.get(KEY_AUTH_CODE);
-            String qzId = dataMap.get(KEY_AUTH_CROP_ID);
+            String corpId = dataMap.get(KEY_AUTH_CROP_ID);
             //如果推送的是临时授权码则进行授权动作
             //授权过程:   suite_token-->临时授权码-->永久授权码
             //suiteKey+suiteSecret+suiteTicket --> suiteToken
