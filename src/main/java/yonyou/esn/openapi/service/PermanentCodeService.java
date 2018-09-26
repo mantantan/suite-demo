@@ -13,11 +13,10 @@ public class PermanentCodeService {
 
     /**
      * 获取本地保存的永久授权码
-     * @param qzId
      * @return
      */
-    public PermanentCodeBo getPermanentCode(int qzId){
-       return permanentCodeMapper.get(qzId);
+    public PermanentCodeBo getPermanentCode(String corpId){
+       return permanentCodeMapper.get(corpId);
     }
 
     /**
@@ -25,8 +24,11 @@ public class PermanentCodeService {
      * @param permanentCodeBo
      * @return
      */
-    public int savePermanentCode(PermanentCodeBo permanentCodeBo){
-        permanentCodeMapper.delete(permanentCodeBo.getSuiteKey(), permanentCodeBo.getQzId());
-        return permanentCodeMapper.insert(permanentCodeBo);
+    public void savePermanentCode(PermanentCodeBo permanentCodeBo){
+        PermanentCodeBo dbPermanentCode = permanentCodeMapper.get(permanentCodeBo.getCorpId());
+        if(dbPermanentCode != null){
+            return;
+        }
+        permanentCodeMapper.insert(permanentCodeBo);
     }
 }

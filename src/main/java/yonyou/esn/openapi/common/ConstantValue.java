@@ -5,8 +5,8 @@ package yonyou.esn.openapi.common;
  */
 public class ConstantValue {
     // PUSH消息的key
-    public static String KEY_INFO_TYPE = "InfoType";
-    public static String KEY_SUITE_TICKET= "SuiteTicket";
-    public static String KEY_AUTH_CODE = "AuthorizationCode";
-    public static String KEY_AUTH_CROP_ID = "AuthCorpId";
+    public static final String KEY_INFO_TYPE = "InfoType";
+    public static final String KEY_SUITE_TICKET= "SuiteTicket";
+    public static final String KEY_AUTH_CODE = "AuthorizationCode";
+    public static final String KEY_AUTH_CROP_ID = "AuthCorpId";
 }

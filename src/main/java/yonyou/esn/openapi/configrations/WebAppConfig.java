@@ -31,7 +31,6 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
         super.addInterceptors(registry);
     }
 
-
     /**
      * 后端支持跨域
      *

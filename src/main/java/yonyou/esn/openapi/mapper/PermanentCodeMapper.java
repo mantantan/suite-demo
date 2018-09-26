@@ -13,8 +13,5 @@ public interface PermanentCodeMapper {
 
     int insert(PermanentCodeBo permanentCodeBo);
 
-    PermanentCodeBo get(@Param("qzId") int qzId);
-
-    int delete(@Param("suiteKey") String suiteKey,@Param("qzId") Integer qzId);
-
+    PermanentCodeBo get(@Param("corpId") String corpId);
 }

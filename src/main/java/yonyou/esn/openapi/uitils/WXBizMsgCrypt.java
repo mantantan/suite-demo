@@ -54,18 +54,17 @@ public class WXBizMsgCrypt {
     String corpId;
 
     private static final Logger logger = LoggerFactory.getLogger(WXBizMsgCrypt.class);
-    /**
-     * 构造函数
-     * 
-     * @param token 公众平台上，开发者设置的token
-     * @param encodingAesKey 公众平台上，开发者设置的EncodingAESKey
-     * @param corpId 企业的corpid
-     * 
-     * @throws AesException 执行失败，请查看该异常的错误码和具体的错误信息
-     */
+
     public WXBizMsgCrypt(){
 
     }
+    /**
+     * 构造函数
+     *
+     * @param token 公众平台上，开发者设置的token
+     * @param encodingAesKey 公众平台上，开发者设置的EncodingAESKey
+     * @param corpId 企业的corpid
+     */
     public WXBizMsgCrypt(String token, String encodingAesKey, String corpId)
             throws BizException {
         if (encodingAesKey.length() != 43) {
@@ -115,7 +114,6 @@ public class WXBizMsgCrypt {
      * 
      * @param text 需要加密的明文
      * @return 加密后base64编码的字符串
-     * @throws AesException aes加密失败
      */
 
     public String encrypt(String randomStr, String text) throws BizException {
@@ -164,7 +162,6 @@ public class WXBizMsgCrypt {
      * 
      * @param text 需要解密的密文
      * @return 解密得到的明文
-     * @throws AesException aes解密失败
      */
     String decrypt(String text) throws BizException {
         byte[] original;
@@ -231,7 +228,6 @@ public class WXBizMsgCrypt {
      * 
      * @return 加密后的可以直接回复用户的密文，包括msg_signature, timestamp, nonce,
      *         encrypt的xml格式的字符串
-     * @throws AesException 执行失败，请查看该异常的错误码和具体的错误信息
      */
     public String EncryptMsg(String replyMsg, String timeStamp, String nonce)
             throws BizException {
@@ -265,7 +261,6 @@ public class WXBizMsgCrypt {
      * @param postData 密文，对应POST请求的数据
      * 
      * @return 解密后的原文
-     * @throws AesException 执行失败，请查看该异常的错误码和具体的错误信息
      */
     public String DecryptMsg(String msgSignature, String timeStamp,
             String nonce, String postData) throws BizException {
@@ -301,7 +296,6 @@ public class WXBizMsgCrypt {
      * @param echoStr 随机串，对应URL参数的echostr
      * 
      * @return 解密之后的echostr
-     * @throws AesException 执行失败，请查看该异常的错误码和具体的错误信息
      */
     public String VerifyURL(String msgSignature, String timeStamp,
             String nonce, String echoStr) throws BizException {
