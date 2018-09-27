@@ -29,6 +29,7 @@ public class ApiTestController {
     public String getSuiteToken(){
         return tokenService.getSuiteToken();
     }
+
     @RequestMapping("access_token")
     public String getAccessToken(String corpId){
         return tokenService.getTenantAccessToken(corpId);
@@ -37,5 +38,10 @@ public class ApiTestController {
     @RequestMapping("staff_info")
     public String getStaffInfo(String accessToken, String yhtUserId) throws SocketTimeoutException, ConnectException {
         return openApiService.getStaffInfo(yhtUserId, accessToken);
+    }
+
+    @RequestMapping("user_info")
+    public String getUserInfo(String accessToken, String yhtUserId) throws SocketTimeoutException, ConnectException {
+        return openApiService.getUserInfo(yhtUserId, accessToken);
     }
 }

@@ -75,7 +75,7 @@
 
     ```
     # 开放平台openapi host
-    isv_auth_base_path=https://openapi.yonyoucloud.com/
+    openapi.host=https://openapi.yonyoucloud.com
     # suite配置，下列信息均能配置在开放平台套件管理的套件中
     suite_config.token  => 创建套件的时候输入的token
     suite_config.suiteKey => 套件suiteKey

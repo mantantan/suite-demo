@@ -12,9 +12,7 @@ import yonyou.esn.openapi.configrations.SuiteConfig;
 import yonyou.esn.openapi.uitils.HttpReq;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class OpenApiService {
@@ -100,7 +98,7 @@ public class OpenApiService {
     }
 
     public String getStaffInfo(String yhtUserId, String accessToken) throws ConnectException, SocketTimeoutException {
-        String url = openapiHost + "/api/rest/user/yht_user_info";
+        String url = openapiHost + "/api/rest/base/staff/info_by_user_id";
         Map<String, String> param = new LinkedHashMap<>();
         param.put("access_token", accessToken);
         param.put("yhtUserId", yhtUserId);
@@ -108,6 +106,16 @@ public class OpenApiService {
         return backData;
     }
 
+
+    public String getUserInfo(String yhtUserId, String accessToken) {
+        String url = openapiHost + "/api/rest/user/list_by_ids?access_token=" + accessToken;
+        JSONObject jsObj = new JSONObject();
+        List<String> userIds = new ArrayList<>();
+        userIds.add(yhtUserId);
+        jsObj.put("userIds", userIds);
+        String backData = HttpReq.postBody(url, jsObj.toJSONString());
+        return backData;
+    }
     /**
      * 获取PermanentCode， 只能在push消息的时候使用一次
      *
