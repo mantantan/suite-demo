@@ -1,8 +1,13 @@
-CREATE TABLE `tb_permanent_code` (
+CREATE TABLE `tb_permanent_code`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `suite_key` varchar(255)  DEFAULT NULL,
-  `qz_id` varchar(255) DEFAULT NULL,
+  `suite_key` varchar(255) DEFAULT NULL,
   `permanent_code` varchar(255) DEFAULT NULL,
+  `qz_id` int(11) DEFAULT NULL,
+  `qz_name` varchar(64) DEFAULT NULL,
+  `auth_member_id` int(11) DEFAULT NULL,
+  `corp_id` varchar(64) DEFAULT NULL,
+  `corp_name` varchar(64) DEFAULT NULL,
+  `auth_user_id` varchar(64) DEFAULT NULL,
   `create_time` date DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB CHARSET=utf8;
+) ENGINE = InnoDB CHARSET=utf8;
