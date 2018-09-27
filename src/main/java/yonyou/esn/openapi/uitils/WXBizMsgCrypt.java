@@ -51,7 +51,7 @@ public class WXBizMsgCrypt {
 
     String token;
 
-    String corpId;
+    String suiteKey;
 
     private static final Logger logger = LoggerFactory.getLogger(WXBizMsgCrypt.class);
 
@@ -63,16 +63,16 @@ public class WXBizMsgCrypt {
      *
      * @param token 公众平台上，开发者设置的token
      * @param encodingAesKey 公众平台上，开发者设置的EncodingAESKey
-     * @param corpId 企业的corpid
+     * @param suiteKey
      */
-    public WXBizMsgCrypt(String token, String encodingAesKey, String corpId)
+    public WXBizMsgCrypt(String token, String encodingAesKey, String suiteKey)
             throws BizException {
         if (encodingAesKey.length() != 43) {
             throw new BizException(CodeEnum.C_91004);
         }
 
         this.token = token;
-        this.corpId = corpId;
+        this.suiteKey = suiteKey;
         aesKey = Base64.decodeBase64(encodingAesKey + "=");
     }
 
@@ -121,13 +121,13 @@ public class WXBizMsgCrypt {
         byte[] randomStrBytes = randomStr.getBytes(CHARSET);
         byte[] textBytes = text.getBytes(CHARSET);
         byte[] networkBytesOrder = getNetworkBytesOrder(textBytes.length);
-        byte[] corpidBytes = corpId.getBytes(CHARSET);
+        byte[] suiteKeyBytes = suiteKey.getBytes(CHARSET);
 
-        // randomStr + networkBytesOrder + text + corpid
+        // randomStr + networkBytesOrder + text + suiteKey
         byteCollector.addBytes(randomStrBytes);
         byteCollector.addBytes(networkBytesOrder);
         byteCollector.addBytes(textBytes);
-        byteCollector.addBytes(corpidBytes);
+        byteCollector.addBytes(suiteKeyBytes);
 
         // ... + pad: 使用自定义的填充方式对明文进行补位填充
         byte[] padBytes = PKCS7Encoder.encode(byteCollector.size());
@@ -184,12 +184,12 @@ public class WXBizMsgCrypt {
             throw new BizException(CodeEnum.C_91007);
         }
 
-        String xmlContent, from_corpid;
+        String xmlContent, from_suiteKey;
         try {
             // 去除补位字符
             byte[] bytes = PKCS7Encoder.decode(original);
 
-            // 分离16位随机字符串,网络字节序和corpId
+            // 分离16位随机字符串,网络字节序和suiteKey
             byte[] networkOrder = Arrays.copyOfRange(bytes, 16, 20);
 
             int xmlLength = recoverNetworkBytesOrder(networkOrder);
@@ -197,7 +197,7 @@ public class WXBizMsgCrypt {
             xmlContent =
                     new String(Arrays.copyOfRange(bytes, 20, 20 + xmlLength),
                             CHARSET);
-            from_corpid =
+            from_suiteKey =
                     new String(Arrays.copyOfRange(bytes, 20 + xmlLength,
                             bytes.length), CHARSET);
         }
@@ -206,8 +206,8 @@ public class WXBizMsgCrypt {
             throw new BizException(CodeEnum.C_91004);
         }
 
-        // corpid不相同的情况
-        if (!from_corpid.equals(corpId)) {
+        // suiteKey不相同的情况
+        if (!from_suiteKey.equals(suiteKey)) {
             throw new BizException(CodeEnum.C_91005);
         }
         return xmlContent;
@@ -241,7 +241,6 @@ public class WXBizMsgCrypt {
 
         String signature = SHA1.getSHA1(token, timeStamp, nonce, encrypt);
 
-        // System.out.println("发送给平台的签名是: " + signature[1].toString());
         // 生成发送的xml
         String result = XMLParse.generate(encrypt, signature, timeStamp, nonce);
         return result;
@@ -264,56 +263,12 @@ public class WXBizMsgCrypt {
      */
     public String DecryptMsg(String msgSignature, String timeStamp,
             String nonce, String postData) throws BizException {
-    	
-    	
-
-        // 密钥，公众账号的app secret
-        // 提取密文
- //       Object[] encrypt = XMLParse.extract(postData);
-        // 验证安全签名
-//        String signature = SHA1.getSHA1(token, timeStamp, nonce, encrypt[1].toString());
     	String signature = SHA1.getSHA1(token, timeStamp, nonce, postData);
-//    	logger.info("suit 端 SHA1: \n token :"+token+"\n time:"+timeStamp+"\n nonce: "+nonce+"\n data: "+postData+"\n result: "+signature);
-        // 和URL中的签名比较是否相等
-        // System.out.println("第三方收到URL中的签名：" + msgSignature);
-        // System.out.println("第三方校验签名：" + signature);
         if (!signature.equals(msgSignature)) {
             throw new BizException(CodeEnum.C_91005);
         }
-
         // 解密
-//        String result = decrypt(encrypt[1].toString());
         String result = decrypt(postData);
         return result;
     }
-
-    /**
-     * 验证URL
-     * 
-     * @param msgSignature 签名串，对应URL参数的msg_signature
-     * @param timeStamp 时间戳，对应URL参数的timestamp
-     * @param nonce 随机串，对应URL参数的nonce
-     * @param echoStr 随机串，对应URL参数的echostr
-     * 
-     * @return 解密之后的echostr
-     */
-    public String VerifyURL(String msgSignature, String timeStamp,
-            String nonce, String echoStr) throws BizException {
-        String signature = SHA1.getSHA1(token, timeStamp, nonce, echoStr);
-
-        System.out.println("---------------------------------------");
-        System.out.println("msgSignature: " + msgSignature);
-        System.out.println("signature: " + signature);
-        if (!(signature.trim()).equals(msgSignature.trim())) {
-            throw new BizException(CodeEnum.C_91005);
-        }
-
-        String result = decrypt(echoStr);
-        return result;
-    }
-
-/*    public static void main(String[] args) {
-		String xxx = "Khxq7e8MO1cvTZWlDQWc4n5wu093ZlYdLHi+byGW2KStEvsLZpOJ7v5fu/uYZMIiBox8hvRlopcVwPnIbFSMLIUdVSPizSbarN7rGxlfzgK3Fxd1fE14+HlsBZci9oaeOD8d7An52Qp6DNMP4LEu2jfi6o4IXToxAcI0XNCbLVtWy+ABCGJlbmxdEMfDpyr7Nwy/jOPlHTiWBpZ8g21+8PMwfHO+bukapETqKoopwyPN8efxOonmafIjmOPTX+4xrRswumuruXIp";
-		
-	}*/
 }
