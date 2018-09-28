@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import yonyou.esn.openapi.bo.EncryptionHolder;
 import yonyou.esn.openapi.bo.EventContent;
 import yonyou.esn.openapi.configrations.SuiteConfig;
-import yonyou.esn.openapi.uitils.WXBizMsgCrypt;
+import yonyou.esn.openapi.uitils.BizMsgCrypt;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -44,7 +44,7 @@ public class OpenEventPushController {
     }
 
     private EventContent decryptEvent(EncryptionHolder holder) throws IOException {
-        WXBizMsgCrypt msgCrypt = new WXBizMsgCrypt(suiteConfig.token, suiteConfig.EncodingAESKey, suiteConfig.suiteKey);
+        BizMsgCrypt msgCrypt = new BizMsgCrypt(suiteConfig.token, suiteConfig.EncodingAESKey, suiteConfig.suiteKey);
         String jsonString = msgCrypt.DecryptMsg(holder.getMsgSignature(), String.valueOf(holder.getTimestamp()),
                 holder.getNonce(), holder.getEncrypt());
 

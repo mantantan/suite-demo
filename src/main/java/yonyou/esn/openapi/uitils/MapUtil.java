@@ -18,9 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by thomasye on 16/8/16.
- */
 public class MapUtil {
 
     public static Logger logger =  LoggerFactory.getLogger(MapUtil.class);
@@ -90,13 +87,5 @@ public class MapUtil {
         }
        return null;
     }
-    
-    
-    
-    public static void main(String[] args) {
-		String xmlStr = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><xml><InfoType>suite_ticket</InfoType><SuiteId>81701cd6-d499-4848-8042-4bdf52229be3</SuiteId><SuiteTicket>47bc2952b54b8a76e52000c03c38af20313b4a46fe1ad6bbbd9acb3797ac579f</SuiteTicket></xml>";
-		Map<String,String> map = MapUtil.xmlToMap(xmlStr);
-		String suiteKey = map.get("SuiteTicket");
-		System.out.println(suiteKey);
-	}
+
 }

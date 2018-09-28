@@ -16,7 +16,7 @@ import yonyou.esn.openapi.service.PermanentCodeService;
 import yonyou.esn.openapi.service.TicketService;
 import yonyou.esn.openapi.service.TokenService;
 import yonyou.esn.openapi.uitils.MapUtil;
-import yonyou.esn.openapi.uitils.WXBizMsgCrypt;
+import yonyou.esn.openapi.uitils.BizMsgCrypt;
 
 import java.util.Map;
 
@@ -58,7 +58,6 @@ public class OpenPushController {
                                @RequestParam("timestamp") String timestamp,
                                @RequestParam("nonce") String nonce,
                                @RequestParam("encrypt") String encrypt) {
-        encrypt = encrypt.replace("%2B", "+");
         Map<String, String> dataMap = decodeData(msgSignature, timestamp, nonce, encrypt);
         String infoType = dataMap.get(KEY_INFO_TYPE);
 
@@ -79,7 +78,7 @@ public class OpenPushController {
 
     // 推送数据解码
     private Map<String, String> decodeData(String msgSignature, String timestamp, String nonce, String encrypt) {
-        WXBizMsgCrypt msgCrypt = new WXBizMsgCrypt(suiteConfig.token, suiteConfig.EncodingAESKey, suiteConfig.suiteKey);
+        BizMsgCrypt msgCrypt = new BizMsgCrypt(suiteConfig.token, suiteConfig.EncodingAESKey, suiteConfig.suiteKey);
         String xmlString = msgCrypt.DecryptMsg(msgSignature, timestamp, nonce, encrypt);
         logger.info(xmlString);
         return MapUtil.xmlToMap(xmlString);
